@@ -7,6 +7,8 @@ const initialState: College = {
   address: '',
   phoneNumber: '',
   motto: '',
+  createdAt: 0,
+  updatedAt: 0,
 };
 
 export const currentCollegeSlice = createSlice({
@@ -32,4 +34,3 @@ export const currentCollegeSlice = createSlice({
 
 export const CurrentCollegeActions = currentCollegeSlice.actions;
 export const currentCollegeReducer = currentCollegeSlice.reducer;
-

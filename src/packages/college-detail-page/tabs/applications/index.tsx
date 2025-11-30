@@ -37,10 +37,10 @@ export const ApplicationsTab = () => {
           {applications.map((app) => (
             <div key={app.id} className={styles.item}>
               <span className={styles.date}>
-                Created: {new Date(app.dateCreated).toLocaleDateString()}
+                Created: {new Date(app.createdAt).toLocaleDateString()}
               </span>
               <span className={styles.date}>
-                Updated: {new Date(app.lastUpdated).toLocaleDateString()}
+                Updated: {new Date(app.updatedAt).toLocaleDateString()}
               </span>
             </div>
           ))}

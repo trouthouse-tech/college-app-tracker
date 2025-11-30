@@ -1,7 +1,6 @@
 'use client';
 
 import { College } from '@/model';
-import { formatPhoneNumber } from '@/utils';
 import { useAppDispatch } from '@/store';
 import { CollegeBuilderActions } from '@/store/builders';
 import { setCurrentCollegeThunk } from '@/store/thunks';
@@ -9,6 +8,25 @@ import { useRouter } from 'next/navigation';
 
 type CollegeRowProps = {
   college: College;
+};
+
+const formatCurrency = (value?: number) => {
+  if (value === undefined || value === null) return '—';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+const formatPercent = (value?: number) => {
+  if (value === undefined || value === null) return '—';
+  return `${(value * 100).toFixed(1)}%`;
+};
+
+const formatNumber = (value?: number) => {
+  if (value === undefined || value === null) return '—';
+  return new Intl.NumberFormat('en-US').format(value);
 };
 
 export const CollegeRow = ({ college }: CollegeRowProps) => {
@@ -25,12 +43,31 @@ export const CollegeRow = ({ college }: CollegeRowProps) => {
     dispatch(CollegeBuilderActions.setDeletingCollegeId(college.id));
   };
 
+  const location = [college.city, college.state].filter(Boolean).join(', ') || '—';
+
   return (
     <tr className={styles.row} onClick={handleRowClick}>
-      <td className={styles.td}>{college.name}</td>
-      <td className={styles.td}>{college.address}</td>
-      <td className={styles.td}>{formatPhoneNumber(college.phoneNumber)}</td>
-      <td className={styles.tdMotto}>{college.motto}</td>
+      <td className={styles.td}>
+        <div className={styles.nameCell}>
+          <span className={styles.collegeName}>{college.name}</span>
+          {college.website && (
+            <a
+              href={college.website.startsWith('http') ? college.website : `https://${college.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className={styles.websiteLink}
+            >
+              Visit Website
+            </a>
+          )}
+        </div>
+      </td>
+      <td className={styles.td}>{location}</td>
+      <td className={styles.td}>{formatPercent(college.admissionRate)}</td>
+      <td className={styles.td}>{formatNumber(college.studentSize)}</td>
+      <td className={styles.td}>{formatCurrency(college.tuitionInState)}</td>
+      <td className={styles.td}>{formatCurrency(college.tuitionOutOfState)}</td>
       <td className={styles.tdActions}>
         <button onClick={handleDeleteClick} className={styles.actionButton}>
           ⋯
@@ -47,8 +84,14 @@ const styles = {
   td: `
     text-sm text-gray-700 px-4 py-3
   `,
-  tdMotto: `
-    text-sm text-gray-500 italic px-4 py-3
+  nameCell: `
+    flex flex-col gap-0.5
+  `,
+  collegeName: `
+    font-medium text-gray-900
+  `,
+  websiteLink: `
+    text-xs text-[#FF7C1E] hover:underline
   `,
   tdActions: `
     px-2 py-3 text-center

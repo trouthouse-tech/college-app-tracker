@@ -70,7 +70,7 @@ export const CollegeModal = () => {
             <label className={styles.label}>Phone Number</label>
             <input
               type="tel"
-              value={formatPhoneNumber(currentCollege.phoneNumber)}
+              value={formatPhoneNumber(currentCollege.phoneNumber || '')}
               onChange={(e) => dispatch(CurrentCollegeActions.setPhoneNumber(parsePhoneNumber(e.target.value)))}
               placeholder="(650) 723-2300"
               className={styles.input}
