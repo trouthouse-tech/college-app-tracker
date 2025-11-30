@@ -1,0 +1,73 @@
+# Tutorials App - Cursor Rules
+
+## TypeScript Rules
+
+### 1. Use Types, Not Interfaces
+- **ALWAYS use `type` instead of `interface`**
+- Use type aliases for all object shapes
+
+#### ✅ Correct:
+```typescript
+export type College = {
+  id: string;
+  name: string;
+};
+```
+
+#### ❌ Incorrect:
+```typescript
+export interface College {
+  id: string;
+  name: string;
+}
+```
+
+## File Organization Rules
+
+### 1. Single Type/Function Per File
+- Each file should contain exactly ONE type, function, or component
+- File names should match the type/function/component name
+
+### 2. Index Files Required
+- Every folder must have an `index.ts` file
+- The `index.ts` file must export ALL types/functions declared in that folder
+
+### 3. Import/Export Patterns
+- Always use named exports, not default exports
+- Import from index files when possible
+
+## Styling Rules
+
+### 1. Styles Object Pattern
+- **NO inline styling**
+- Always define styles using a `styles` const object after the component function
+- Use template literals (backticks) for all style definitions
+
+#### ✅ Correct:
+```typescript
+export const MyComponent = () => {
+  return <div className={styles.container}>...</div>;
+};
+
+const styles = {
+  container: `
+    min-h-screen bg-zinc-900 p-8
+  `,
+};
+```
+
+## Redux Rules
+
+### 1. Use AppThunk Pattern
+- **NEVER use createAsyncThunk**
+- Use manual thunks with the AppThunk type
+- Keep slice reducers simple - business logic in thunks
+
+## Testing & Verification Rules
+
+### 1. No Browser Tools for Verification
+- **NEVER use browser tools (screenshots, navigation, etc.) to verify styling or code changes**
+- Always verify changes by reading the code directly
+- Check that Tailwind classes are correct by reviewing the styles object in the component
+- Trust the code - do not rely on visual verification
+
